@@ -7,6 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
 import GreenSquares from "./GreenSquares";
+import {NavDropdown} from "react-bootstrap";
 function App() {
     const [user, setUser] = useState(null);
 
@@ -28,11 +29,20 @@ function App() {
                 <Container>
                     <Navbar.Brand href="#home">Navbar</Navbar.Brand>
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="#features">Features</Nav.Link>
-                        <Nav.Link href="#pricing">Pricing</Nav.Link>
+                        <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
+                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.2">
+                                Another action
+                            </NavDropdown.Item>
+                            <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item href="/login" element={<Login />} >
+                                Login
+                            </NavDropdown.Item>
+                        </NavDropdown>
                     </Nav>
                 </Container>
+
             </Navbar>
             <Navbar user={user} />
             <Routes>
