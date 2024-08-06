@@ -3,7 +3,7 @@ html {
   width: 100%;
   margin: 0;
   background-color: #222;
-  color: #fff;
+  color: #F8F3E7;
 }
 
 html,
@@ -20,5 +20,7 @@ body,
 
     .title {
         font-family: Verdana;
+        color: var(--creme)
     }
 }
+

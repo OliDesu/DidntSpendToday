@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {  signInWithEmailAndPassword   } from 'firebase/auth';
 import { auth } from './FirebaseConfig';
-import { NavLink, useNavigate } from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom'
+import './Login.css';
 const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -25,62 +25,48 @@ const Login = () => {
 
     }
 
-    return(
-        <>
-            <main >
-                <section>
-                    <div>
-                        <p> FocusApp </p>
+    return (
 
-                        <form>
-                            <div>
-                                <label htmlFor="email-address">
-                                    Email address
-                                </label>
-                                <input
-                                    id="email-address"
-                                    name="email"
-                                    type="email"
-                                    required
-                                    placeholder="Email address"
-                                    onChange={(e)=>setEmail(e.target.value)}
-                                />
-                            </div>
 
-                            <div>
-                                <label htmlFor="password">
-                                    Password
-                                </label>
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    required
-                                    placeholder="Password"
-                                    onChange={(e)=>setPassword(e.target.value)}
-                                />
-                            </div>
+        <div className={'mainContainer'}>
+            <div className={'titleContainer'}>
+                <div className="title">Login</div>
+            </div>
+            <br/>
+            <div className={'inputContainer'}>
+                <input
+                    id="email-address"
+                    name="email"
+                    type="email"
+                    value={email}
+                    required
+                    placeholder="Enter your email here"
+                    onChange={(ev) => setEmail(ev.target.value)}
+                    className={'inputBox'}
+                />
+            </div>
+            <br/>
+            <div className={'inputContainer'}>
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    value={password}
+                    placeholder="Enter your password here"
+                    onChange={(ev) => setPassword(ev.target.value)}
+                    className={'inputBox'}
+                />
 
-                            <div>
-                                <button
-                                    onClick={onLogin}
-                                >
-                                    Login
-                                </button>
-                            </div>
-                        </form>
+            </div>
+            <br/>
+            <div className={'inputContainer'}>
+                <input className={'inputButton'} type="button"                                     onClick={onLogin}
+                       value={'Log in'}/>
+            </div>
+        </div>
 
-                        <p className="text-sm text-white text-center">
-                            No account yet? {' '}
-                            <NavLink to="/signup">
-                                Sign up
-                            </NavLink>
-                        </p>
 
-                    </div>
-                </section>
-            </main>
-        </>
+
     )
 }
 
