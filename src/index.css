@@ -67,3 +67,6 @@ input[type='button'] {
   cursor: pointer;
 }
 
+.text-redirect {
+    color: var(--lavande);
+}
