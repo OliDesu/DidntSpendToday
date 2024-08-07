@@ -29,7 +29,6 @@ const Register = () => {
             // Store user data in Firestore
             const userDoc = doc(collection(firestore, 'users'), email);
             await setDoc(userDoc, userStorage);
-
             // Log the user object
             console.log(user);
 

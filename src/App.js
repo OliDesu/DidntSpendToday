@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { auth } from './Auth/FirebaseConfig';
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
-import GreenSquares from "./GreenSquares";
-import {NavDropdown} from "react-bootstrap";
+import GreenSquares from './GreenSquares';
+import { CurrentUserProvider } from './Services/CurrentUserService.tsx';
+import AuthProvider from './Auth/AuthProvider';
+import Header from "./Shared/Header";
+import { LoginProvider } from './Services/LoginInProvider.tsx';
+
 function App() {
     const [user, setUser] = useState(null);
 
@@ -25,29 +26,20 @@ function App() {
 
     return (
         <Router>
-            <Navbar bg="dark" data-bs-theme="dark">
-                <Container>
-                    <Navbar.Brand href="#home">Didn't spend</Navbar.Brand>
-                    <Nav className="me-auto">
-                        <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
-                            <NavDropdown.Item href="/about">
-                                Abouts
-                            </NavDropdown.Item>
-                            <NavDropdown.Divider />
-                            <NavDropdown.Item href="/login" element={<Login />} >
-                                Login
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                </Container>
+            <LoginProvider>
 
-            </Navbar>
-            <Navbar user={user} />
-            <Routes>
-                <Route path="/" element={<GreenSquares />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-            </Routes>
+            <CurrentUserProvider>
+                <AuthProvider>
+                    <Header />
+                    <Routes>
+                        <Route path="/home" element={<GreenSquares />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
+                    </Routes>
+                </AuthProvider>
+            </CurrentUserProvider>
+                </LoginProvider>
+
         </Router>
     );
 }
