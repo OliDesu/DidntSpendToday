@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
 import { auth } from './Auth/FirebaseConfig';
 import Login from './Auth/Login';
 import Register from './Auth/Register';
@@ -35,6 +35,8 @@ function App() {
                         <Route path="/home" element={<GreenSquares />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
+                        <Route path="*" element={<Navigate to="/login" replace />} />
+
                     </Routes>
                 </AuthProvider>
             </CurrentUserProvider>
