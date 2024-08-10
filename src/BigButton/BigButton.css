@@ -1,0 +1,8 @@
+.BigButton {
+    display: inline-block;
+    background-color: var(--vert);
+    width: 30rem;
+    height: 10rem;
+    border: 1px solid var(--vert);
+    border-radius: 50%;
+}

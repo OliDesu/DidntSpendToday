@@ -7,11 +7,14 @@ import GreenSquares from './GreenSquares';
 import { CurrentUserProvider } from './Services/CurrentUserService.tsx';
 import AuthProvider from './Auth/AuthProvider';
 import Header from "./Shared/Header";
-import { LoginProvider } from './Services/LoginInProvider.tsx';
+import {LoginProvider, useLogin} from './Services/LoginInProvider.tsx';
 
 function App() {
-    const [user, setUser] = useState(null);
-
+    const [ user, setUser] = useState(null);
+    function ProtectedRoute() {
+        const { isLoggedIn } = useLogin();
+        return isLoggedIn ? <Navigate to="/home" replace /> : <Navigate to="/login" replace />;
+    }
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             if (user) {
@@ -22,12 +25,11 @@ function App() {
         });
 
         return () => unsubscribe();
-    }, []);
+    },);
 
     return (
         <Router>
             <LoginProvider>
-
             <CurrentUserProvider>
                 <AuthProvider>
                     <Header />
@@ -35,8 +37,7 @@ function App() {
                         <Route path="/home" element={<GreenSquares />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
-                        <Route path="*" element={<Navigate to="/login" replace />} />
-
+                        <Route path="*" element={<ProtectedRoute />} />
                     </Routes>
                 </AuthProvider>
             </CurrentUserProvider>
