@@ -42,7 +42,6 @@ function App() {
                 </AuthProvider>
             </CurrentUserProvider>
                 </LoginProvider>
-
         </Router>
     );
 }

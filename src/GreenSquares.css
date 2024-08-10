@@ -1,15 +1,18 @@
 .flex-container {
     display: flex;
     flex-direction: column;
+    background-color: var(--gris);
+    justify-items: center !important;
 }
 
 /* GreenSquares.css */
 .square {
-    width: 20px;
-    height: 20px;
+    width: 10px;
+    height: 10px;
     display: inline-block;
     margin: 2px;
-    background-color: red; /* Default color */
+    background-color: var(--gris-clair);
+    border-radius: 15%;
 }
 
 .square.green {
@@ -20,5 +23,5 @@
 .squares {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 3px;
 }
