@@ -1,21 +1,22 @@
 // @ts-ignore
-import React, {createContext, useState, useContext, ReactNode, useEffect} from 'react';
-import {User} from '../Models/User';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
+// @ts-ignore
+import { User } from '../Models/User.ts';
 
 interface CurrentUserContextProps {
-    currentUser: User | null;
-    setCurrentUser: (user: User | null) => void;
+    currentUser: User;
+    setCurrentUser: (user: User) => void;
 }
 
 const CurrentUserContext = createContext<CurrentUserContextProps | undefined>(undefined);
-const isUserLoggedIn = React.createContext(false);
-isUserLoggedIn.displayName = 'isUserLoggedIn';
 
 export const CurrentUserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [currentUser, setCurrentUser] = useState<User>(new User('', '', [new Date()]));
+
     useEffect(() => {
         console.log('User charged:', currentUser);
     }, [currentUser]);
+
     return (
         <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
             {children}

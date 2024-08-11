@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useState, useEffect } from 'react';
+import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
 import { auth, firestore } from './FirebaseConfig';
 import { NavLink, useNavigate } from 'react-router-dom';
 import './Login.css';
@@ -7,6 +7,7 @@ import { useCurrentUser } from '../Services/CurrentUserService.tsx';
 import { useLogin } from '../Services/LoginInProvider.tsx';
 import { User } from '../Models/User.ts';
 import { collection, query, where, getDocs, limit } from 'firebase/firestore';
+import {useFetchUserByEmail} from "./UserData";
 
 const Login = () => {
     const navigate = useNavigate();
@@ -14,24 +15,25 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const { setCurrentUser } = useCurrentUser();
     const { setIsLoggedIn } = useLogin();
+    const { fetchUserByEmail } = useFetchUserByEmail();
 
-    async function fetchUserByEmail(email) {
-        try {
-            const userRef = collection(firestore, 'users');
-            const userQuery = query(userRef, where('email', '==', email), limit(1));
-            const querySnapshot = await getDocs(userQuery);
-            if (querySnapshot.size === 1) {
-                const user = querySnapshot.docs[0].data();
-                setCurrentUser(User.convertDocumentDataToUser(user));
-                setIsLoggedIn(true);
-
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                // User is signed in, fetch user data from Firestore
+                await fetchUserByEmail(user.email);
+                navigate("/home");
             } else {
-                console.log("0 documents matched the query");
+                // User is signed out, reset the state
+                setIsLoggedIn(false);
+                setCurrentUser(new User('','',[]));
             }
-        } catch (error) {
-            console.error("Error fetching user:", error);
-        }
-    }
+        });
+
+        // Cleanup subscription on unmount
+        return () => unsubscribe();
+    }, [navigate, setIsLoggedIn, setCurrentUser]);
+
 
     const onLogin = async (e) => {
         e.preventDefault();
